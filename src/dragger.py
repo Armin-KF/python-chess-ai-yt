@@ -2,43 +2,45 @@ import pygame
 
 from const import *
 
+
 class Dragger:
 
-    def __init__(self):
-        self.piece = None
-        self.dragging = False
-        self.mouseX = 0
-        self.mouseY = 0
-        self.initial_row = 0
-        self.initial_col = 0
+    def __init__(app):
+        app.piece = None
+        app.dragging = False
+        app.mouseX = 0
+        app.mouseY = 0
+        app.row_avalie = 0 
+        app.col_final = 0
 
-    # blit method
 
-    def update_blit(self, surface):
-        # texture
-        self.piece.set_texture(size=128)
-        texture = self.piece.texture
-        # img
+
+
+    def update_blit(app , surface):
+        app.piece.set_texture(size=128)
+        texture = app.piece.texture
+
         img = pygame.image.load(texture)
-        # rect
-        img_center = (self.mouseX, self.mouseY)
-        self.piece.texture_rect = img.get_rect(center=img_center)
-        # blit
-        surface.blit(img, self.piece.texture_rect)
 
-    # other methods
+        img_center = (app.mouseX , app.mouseY)
+        app.piece.rect = img.get_rect(center=img_center)
 
-    def update_mouse(self, pos):
-        self.mouseX, self.mouseY = pos # (xcor, ycor)
+        surface.blit(img , app.piece.rect)
 
-    def save_initial(self, pos):
-        self.initial_row = pos[1] // SQSIZE
-        self.initial_col = pos[0] // SQSIZE
+    def update_mouse(app , pos):
+        app.mouseX , app.mouseY = pos
 
-    def drag_piece(self, piece):
-        self.piece = piece
-        self.dragging = True
 
-    def undrag_piece(self):
-        self.piece = None
-        self.dragging = False
+    def save_initial(app, pos ):
+        app.row_avalie = pos[1] // SQSIZE
+        app.col_final = pos[0] // SQSIZE
+
+
+    def drag_piece(app , piece):
+        app.piece = piece
+        app.dragging = True
+
+
+    def drop_piece(app):
+        app.piece = None
+        app.dragging = False

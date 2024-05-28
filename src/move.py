@@ -1,16 +1,9 @@
-
 class Move:
 
-    def __init__(self, initial, final):
-        # initial and final are squares
-        self.initial = initial
-        self.final = final
+    def __init__(app , initial , final):
+        app.initial = initial
+        app.final = final
 
-    def __str__(self):
-        s = ''
-        s += f'({self.initial.col}, {self.initial.row})'
-        s += f' -> ({self.final.col}, {self.final.row})'
-        return s
 
-    def __eq__(self, other):
-        return self.initial == other.initial and self.final == other.final
+    def __eq__(app , other):
+        return app.initial == other.initial and app.final == other.final
