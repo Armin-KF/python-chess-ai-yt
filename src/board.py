@@ -20,12 +20,12 @@ class Board:
     def move_piece(app , piece , move):
         beforeMovePos = move.initial
         afterMovePos = move.final
-
+    
         app.squares[beforeMovePos.row][beforeMovePos.col].piece = None
         app.squares[afterMovePos.row][afterMovePos.col].piece = piece
-
+    
         piece.moved = True
-
+    
         piece.reset_moves()
 
 
@@ -41,8 +41,13 @@ class Board:
     def in_check(app , piece , move):
         temp_piece = copy.deepcopy(piece)
         temp_board = copy.deepcopy(app)
+        
+        # Ensure move is a Move object
+        if isinstance(move, Square):
+            move = Move(move, move)  # Create a Move object with the same initial and final Square
+
         temp_board.move_piece(temp_piece , move)
-    
+
         for row in range(ROWS):
             for col in range(COLS):
                 if temp_board.squares[row][col].has_enemy_piece(piece.color):
@@ -206,7 +211,7 @@ class Board:
                 (row+0 , col-1),
                 (row-1 , col-1),
             ]
-
+        
             for possible_move in king_moves:
                 possible_move_row , possible_move_col = possible_move
                 if Square.in_range(possible_move_row , possible_move_col):
@@ -220,7 +225,7 @@ class Board:
                             temp_piece = copy.deepcopy(piece)
                             temp_board.move_piece(temp_piece, move)  
                             # Check if the king is still in check after the move
-                            if not temp_board.in_check(temp_piece, move):  # Corrected line
+                            if not temp_board.in_check(temp_piece, final):  # Corrected line
                                 piece.add_move(move)
 
                     
